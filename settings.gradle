@@ -1,0 +1,4 @@
+rootProject.name = 'PGEG3J'
+
+include ':PGEG3JL'
+project(':PGEG3JL').projectDir = new File(settingsDir, '../PGEG3JL')
