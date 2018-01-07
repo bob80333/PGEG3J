@@ -2,15 +2,10 @@ package com.erice.PGEG3J
 
 import com.erice.PGEG3JL.Game
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.stage.FileChooser
 import tornadofx.*
 import java.io.File
-import java.io.IOException
-import java.io.OutputStream
-import java.nio.charset.Charset
-import java.util.*
 
 class TextEditorFragment(val documentViewModel: DocumentViewModel) : Fragment() {
     override val root = pane {
@@ -40,12 +35,6 @@ class TextEditorFragment(val documentViewModel: DocumentViewModel) : Fragment() 
     override fun onRefresh() {
         documentViewModel.rollback()
     }
-}
-
-
-class EmptyView : View() {
-    val controller: MapController by inject()
-    override val root = label(controller.quote())
 }
 
 class AboutFragment : Fragment() {
@@ -85,16 +74,19 @@ class SettingsFragment : Fragment() {
 }
 
 class ProjectName : View("Name your Project") {
+    val model: ProjectModel by inject()
     override val root = form {
         fieldset("Project Names") {
             var projectName: TextField = TextField()
             var hasTouchedPath: Boolean = false
             field("Project Name") {
                 projectName = textfield()
+                model.name.bind(projectName.textProperty())
             }
 
             field("Project file name") {
-                textfield()
+                val filename = textfield()
+                model.filename.bind(filename.textProperty())
             }
             field("Project Folder") {
                 val textPath = textfield("${System.getProperty("user.home")}\\PGEG3J_Projects")
@@ -107,13 +99,19 @@ class ProjectName : View("Name your Project") {
                 button("Browse...").action {
                     textPath.text = chooseDirectory("", File(textPath.text))?.absolutePath?.toString()
                 }
+                model.absoluteFolderPath.bind(textPath.textProperty())
             }
 
         }
     }
+
+    override fun onSave() {
+        isComplete = model.commit()
+    }
 }
 
 class ProjectRom : View("Choose your game") {
+    val model: ProjectModel by inject()
     override val root = form {
 
         fieldset("Enter Game Data") {
@@ -127,19 +125,34 @@ class ProjectRom : View("Choose your game") {
                         textPath.text = chosen[0].absolutePath
                     }
                 }
+                model.absoluteOriginalRomPath.bind(textPath.textProperty())
             }
             field("Game Detection") {
                 val check = checkbox("Automatically detect game")
-                combobox(values = Game.values().toList()) {
+                val game = combobox(values = Game.values().toList()) {
                     disableWhen { check.selectedProperty() }
 
+                }
+                model.game.bind(game.valueProperty())
+                check.setOnMouseClicked {
+                    if(check.isSelected) {
+                        model.game.unbind()
+                        model.game.setValue(Game.AutoDetect)
+                    } else {
+                        model.game.bind(game.valueProperty())
+                    }
                 }
             }
         }
     }
+
+    override fun onSave() {
+        isComplete = model.commit()
+    }
 }
 
 class CreateProjectWizard : Wizard() {
+    val model: ProjectModel by inject()
     init {
         with(root) {
             setPrefSize(800.0, 200.0)
@@ -147,33 +160,13 @@ class CreateProjectWizard : Wizard() {
         }
         add(ProjectName::class)
         add(ProjectRom::class)
+        onComplete {
+            val project = model.createItemFromProperties()
+            println(project.name)
+            println(project.filename)
+            println(project.absoluteFolderPath)
+            println(project.absoluteOriginalRomPath)
+            println(project.game)
+        }
     }
-}
-
-/**
- * TextAreaOutputStream
- *
- * Binds an output stream to a textarea
- */
-class TextAreaOutputStream(val textArea: TextArea) : OutputStream() {
-
-    /**
-     * This doesn't support multibyte characters streams like utf8
-     */
-    @Throws(IOException::class)
-    override fun write(b: Int) {
-        throw UnsupportedOperationException()
-    }
-
-    /**
-     * Supports multibyte characters by converting the array buffer to String
-     */
-    @Throws(IOException::class)
-    override fun write(b: ByteArray, off: Int, len: Int) {
-        // redirects data to the text area
-        textArea.appendText(String(Arrays.copyOf(b, len), Charset.defaultCharset()))
-        // scrolls the text area to the end of data
-        textArea.scrollTop = java.lang.Double.MAX_VALUE
-    }
-
 }
