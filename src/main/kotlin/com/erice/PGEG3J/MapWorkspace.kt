@@ -119,6 +119,19 @@ fun getMapList(): List<String> {
     return listOf("POKEMON TOWN", "OH YEHA TOWN2", "ELITE 4 PLACE", "HALL OF U WIN")
 }
 
+class ProjectModel : ItemViewModel<Project>() {
+    val name = bind { item?.name?.toProperty() }
+    val filename = bind { item?.filename?.toProperty() }
+    val absoluteFolderPath = bind { item?.absoluteFolderPath?.toProperty() }
+    val absoluteOriginalRomPath = bind { item?.absoluteOriginalRomPath?.toProperty() }
+    val game = bind { item?.game?.toProperty() }
+
+    fun createItemFromProperties(): Project {
+        return Project(name.getValue(), filename.getValue(), absoluteFolderPath.getValue(), absoluteOriginalRomPath.getValue(), game.getValue())
+    }
+}
+
+
 fun main(args: Array<String>) {
 
 }
