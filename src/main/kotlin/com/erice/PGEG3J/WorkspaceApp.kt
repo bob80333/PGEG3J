@@ -4,9 +4,6 @@ import javafx.application.Application
 import javafx.scene.image.Image
 import tornadofx.*
 
-/**
- * Created by miguelius on 04/09/2017.
- */
 class WorkspaceApp : App() {
     override val primaryView = MapWorkspace::class
 
