@@ -1,10 +1,12 @@
-package com.erice.PGEG3J
+package com.erice.PGEG3J.project
 
 import com.erice.PGEG3JL.Game
 import com.erice.PGEG3JL.MB
 import com.erice.PGEG3JL.Rom
 import com.erice.PGEG3JL.findGame
-import java.io.*
+import java.io.FileInputStream
+import java.io.FileReader
+import java.io.FileWriter
 
 class Project(val name: String, val filename: String, val absoluteFolderPath: String, val absoluteOriginalRomPath: String, var game: Game) {
 

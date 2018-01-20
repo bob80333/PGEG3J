@@ -1,5 +1,7 @@
 package com.erice.PGEG3J
 
+import com.erice.PGEG3J.project.CreateProjectWizard
+import com.erice.PGEG3J.project.Project
 import javafx.application.Platform
 import javafx.geometry.Orientation
 import javafx.scene.control.TreeItem
@@ -7,7 +9,8 @@ import javafx.scene.paint.Color
 import javafx.stage.Modality
 import tornadofx.*
 
-class MapWorkspace() : Fragment("PGEG3J") {
+class MapWorkspace : Fragment("PGEG3J") {
+    private val mapWorkspace = this
     override val root =
             borderpane {
                 prefHeight = 720.0
@@ -18,7 +21,7 @@ class MapWorkspace() : Fragment("PGEG3J") {
                             menu("File") {
                                 item("New Project").action {
                                     log.info("Creating project")
-                                    CreateProjectWizard().openModal(modality = Modality.APPLICATION_MODAL)
+                                    CreateProjectWizard(mapWorkspace).openModal(modality = Modality.APPLICATION_MODAL)
                                 }
                                 item("Open...").action {
                                     log.info("Opening project")
@@ -113,6 +116,10 @@ class MapWorkspace() : Fragment("PGEG3J") {
                     }
                 }
             }
+
+    fun changeName(title: String) {
+        this.title = "PGEG3J | " + title
+    }
 }
 
 fun getMapList(): List<String> {
@@ -120,6 +127,7 @@ fun getMapList(): List<String> {
 }
 
 class ProjectModel : ItemViewModel<Project>() {
+
     val name = bind { item?.name?.toProperty() }
     val filename = bind { item?.filename?.toProperty() }
     val absoluteFolderPath = bind { item?.absoluteFolderPath?.toProperty() }
@@ -127,7 +135,7 @@ class ProjectModel : ItemViewModel<Project>() {
     val game = bind { item?.game?.toProperty() }
 
     fun createItemFromProperties(): Project {
-        return Project(name.getValue(), filename.getValue(), absoluteFolderPath.getValue(), absoluteOriginalRomPath.getValue(), game.getValue())
+        return Project(name.value, filename.value, absoluteFolderPath.value, absoluteOriginalRomPath.value, game.value)
     }
 }
 
