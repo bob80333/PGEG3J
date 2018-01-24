@@ -1,5 +1,6 @@
 package com.erice.PGEG3J.project
 
+import com.erice.PGEG3J.MapController
 import com.erice.PGEG3J.MapWorkspace
 import com.erice.PGEG3J.ProjectModel
 import com.erice.PGEG3JL.Game
@@ -11,11 +12,12 @@ import java.util.logging.Level
 
 class ProjectName : View("Name your Project") {
     val model: ProjectModel by inject()
+    lateinit var name: Field
     override val root = form {
         fieldset("Project Names") {
             var projectName: TextField = TextField()
             var hasTouchedPath: Boolean = false
-            field("Project Name") {
+            name = field("Project Name") {
                 projectName = textfield()
                 model.name.bind(projectName.textProperty())
             }
@@ -42,6 +44,7 @@ class ProjectName : View("Name your Project") {
     }
 
     override fun onSave() {
+        model.name.unbindBidirectional(name.textProperty)
         isComplete = model.commit()
     }
 }
@@ -88,6 +91,7 @@ class ProjectRom : View("Choose your game") {
 }
 
 class CreateProjectWizard(val mapWorkspace: MapWorkspace) : Wizard() {
+    val controller: MapController by inject()
     val model: ProjectModel by inject()
     init {
         with(root) {
@@ -101,6 +105,13 @@ class CreateProjectWizard(val mapWorkspace: MapWorkspace) : Wizard() {
             log.log(Level.INFO, "Project Created Via Wizard")
             log.log(Level.FINEST, project.toString())
             mapWorkspace.changeName(project.name)
+            controller.project = project
+
+            model.name.unbind()
+            model.absoluteOriginalRomPath.unbind()
+            model.absoluteFolderPath.unbind()
+            model.filename.unbind()
+            model.game.unbind()
         }
     }
 }

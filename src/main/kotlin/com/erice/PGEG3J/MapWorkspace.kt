@@ -1,5 +1,6 @@
 package com.erice.PGEG3J
 
+import com.erice.PGEG3J.configuration.SettingsFragment
 import com.erice.PGEG3J.project.CreateProjectWizard
 import com.erice.PGEG3J.project.Project
 import javafx.application.Platform
@@ -32,7 +33,7 @@ class MapWorkspace : Fragment("PGEG3J") {
 
                                 item("Settings").action {
                                     log.info("Opening settings")
-                                    SettingsFragment().openModal()
+                                    SettingsFragment(mapWorkspace).openModal()
                                 }
 
                                 separator()

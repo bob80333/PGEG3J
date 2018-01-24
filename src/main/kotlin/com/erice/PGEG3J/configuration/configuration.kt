@@ -1,4 +1,4 @@
-package com.erice.PGEG3J
+package com.erice.PGEG3J.configuration
 
 import java.io.File
 import java.util.*

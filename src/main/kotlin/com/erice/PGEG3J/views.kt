@@ -50,21 +50,3 @@ class AboutFragment : Fragment() {
         }
     }
 }
-
-class SettingsFragment : Fragment() {
-    val controller: MapController by inject()
-    override val root = tabpane {
-        tab("General") {
-            isClosable = false
-            label("YOU CANT CHANGE ANYTHING IM A DICTATOR ECKS DE")
-        }
-    }
-
-    init {
-        title = "Settings"
-
-        with(root) {
-            setMaxSize(800.0, 600.0)
-        }
-    }
-}

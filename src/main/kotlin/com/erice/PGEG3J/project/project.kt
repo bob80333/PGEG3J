@@ -8,7 +8,7 @@ import java.io.FileInputStream
 import java.io.FileReader
 import java.io.FileWriter
 
-class Project(val name: String, val filename: String, val absoluteFolderPath: String, val absoluteOriginalRomPath: String, var game: Game) {
+class Project(var name: String, var filename: String, var absoluteFolderPath: String, var absoluteOriginalRomPath: String, var game: Game) {
 
     init {
         if (game == Game.AutoDetect) {
