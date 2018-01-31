@@ -5,6 +5,7 @@ import javafx.scene.image.Image
 import tornadofx.*
 
 class WorkspaceApp : App() {
+    val controller: ProjectController by inject()
     override val primaryView = MapWorkspace::class
 
     init {

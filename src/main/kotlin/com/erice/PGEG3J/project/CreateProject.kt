@@ -1,7 +1,7 @@
 package com.erice.PGEG3J.project
 
-import com.erice.PGEG3J.MapController
 import com.erice.PGEG3J.MapWorkspace
+import com.erice.PGEG3J.ProjectController
 import com.erice.PGEG3J.ProjectModel
 import com.erice.PGEG3JL.Game
 import javafx.scene.control.TextField
@@ -91,7 +91,7 @@ class ProjectRom : View("Choose your game") {
 }
 
 class CreateProjectWizard(val mapWorkspace: MapWorkspace) : Wizard() {
-    val controller: MapController by inject()
+    val controller: ProjectController by inject()
     val model: ProjectModel by inject()
     init {
         with(root) {
@@ -104,7 +104,7 @@ class CreateProjectWizard(val mapWorkspace: MapWorkspace) : Wizard() {
             val project = model.createItemFromProperties()
             log.log(Level.INFO, "Project Created Via Wizard")
             log.log(Level.FINEST, project.toString())
-            mapWorkspace.changeName(project.name)
+            mapWorkspace.changeProjectName(project.name)
             controller.project = project
 
             model.name.unbind()

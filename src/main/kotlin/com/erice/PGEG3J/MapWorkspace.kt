@@ -118,7 +118,7 @@ class MapWorkspace : Fragment("PGEG3J") {
                 }
             }
 
-    fun changeName(title: String) {
+    fun changeProjectName(title: String) {
         this.title = "PGEG3J | " + title
     }
 }

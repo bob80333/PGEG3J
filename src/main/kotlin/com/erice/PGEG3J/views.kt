@@ -34,7 +34,7 @@ class TextEditorFragment(val documentViewModel: DocumentViewModel) : Fragment() 
 }
 
 class AboutFragment : Fragment() {
-    val controller: MapController by inject()
+    val controller: ProjectController by inject()
     override val root = vbox {
         label("PGEG3J   -    by Eric Engelhart (bob80333)")
         label("")

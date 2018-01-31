@@ -1,13 +1,13 @@
 package com.erice.PGEG3J.configuration
 
-import com.erice.PGEG3J.MapController
 import com.erice.PGEG3J.MapWorkspace
+import com.erice.PGEG3J.ProjectController
 import com.erice.PGEG3J.ProjectModel
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class SettingsFragment(val mapWorkspace: MapWorkspace) : Fragment() {
-    val controller: MapController by inject()
+    val controller: ProjectController by inject()
     val projectModel: ProjectModel by inject()
     override val root = vbox {
         tabpane {
@@ -37,7 +37,7 @@ class SettingsFragment(val mapWorkspace: MapWorkspace) : Fragment() {
                 val project = projectModel.createItemFromProperties()
                 println(project.name)
                 println(projectModel.name.toString())
-                mapWorkspace.changeName(project.name)
+                mapWorkspace.changeProjectName(project.name)
                 controller.project = project
                 close()
             }
