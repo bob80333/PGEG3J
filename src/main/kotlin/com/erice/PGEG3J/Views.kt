@@ -7,8 +7,8 @@ class TextEditorFragment(val documentViewModel: DocumentViewModel) : Fragment() 
     override val root = pane {
         title = documentViewModel.title.value
         textarea(documentViewModel.text) {
-            this.prefWidthProperty().bind(this@pane.widthProperty());
-            this.prefHeightProperty().bind(this@pane.heightProperty());
+            this.prefWidthProperty().bind(this@pane.widthProperty())
+            this.prefHeightProperty().bind(this@pane.heightProperty())
 
         }
     }

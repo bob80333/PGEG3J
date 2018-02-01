@@ -12,14 +12,14 @@ class Project(var name: String, var filename: String, var absoluteFolderPath: St
 
     init {
         if (game == Game.AutoDetect) {
-            var data = ByteArray(16 * MB)
+            val data = ByteArray(16 * MB)
             FileInputStream(absoluteOriginalRomPath).read(data)
             val rom = Rom(name, data)
             game = findGame(rom)
         }
     }
     companion object {
-        private val delimiter = " := "
+        private const val delimiter = " := "
         fun loadProject(projectFilePath: String): Project {
             val fileReader = FileReader(projectFilePath)
             val lines = fileReader.readLines()

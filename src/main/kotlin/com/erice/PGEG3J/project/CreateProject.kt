@@ -15,8 +15,8 @@ class ProjectName : View("Name your Project") {
     lateinit var name: Field
     override val root = form {
         fieldset("Project Names") {
-            var projectName: TextField = TextField()
-            var hasTouchedPath: Boolean = false
+            var projectName = TextField()
+            var hasTouchedPath = false
             name = field("Project Name") {
                 projectName = textfield()
                 model.name.bind(projectName.textProperty())

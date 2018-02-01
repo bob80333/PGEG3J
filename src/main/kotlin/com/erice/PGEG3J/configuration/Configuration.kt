@@ -5,18 +5,18 @@ import java.util.*
 
 object Configure {
     private val config: HashMap<String, String> = hashMapOf()
-    private val delimiter = " -=:=- "
+    private const val delimiter = " -=:=- "
     private val fileName = "PGEG3J.config"
 
-    public fun configure(name: String, value: String) {
+    fun configure(name: String, value: String) {
         config.set(name, value)
     }
 
-    public fun retrieve(name: String, default: String = ""): String {
+    fun retrieve(name: String, default: String = ""): String {
         return config.getOrDefault(name, default)
     }
 
-    public fun save() {
+    fun save() {
         val names = config.keys
         val outputList = mutableListOf<String>()
         names.forEach {
@@ -27,13 +27,13 @@ object Configure {
         file.writeText(output)
     }
 
-    public fun load() {
+    fun load() {
         val loader = Scanner(javaClass.classLoader.getResourceAsStream(fileName))
         while (loader.hasNextLine()) {
             val line = loader.nextLine()
             val halves = line.split(delimiter)
             if (halves.size > 2) error("Delimiter not unique in config file")
-            config.put(halves[0], halves[1])
+            config[halves[0]] = halves[1]
         }
     }
 }

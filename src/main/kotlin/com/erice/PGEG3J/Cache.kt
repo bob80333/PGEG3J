@@ -8,15 +8,15 @@ class Cacher {
     private val delimiter = " -=:=- "
     private val fileName = "PGEG3J.cache"
 
-    public fun cache(name: String, value: String) {
+    fun cache(name: String, value: String) {
         cache[name] = value
     }
 
-    public fun retrieve(name: String, default: String = ""): String {
+    fun retrieve(name: String, default: String = ""): String {
         return cache.getOrDefault(name, default)
     }
 
-    public fun save() {
+    fun save() {
         val names = cache.keys
         val outputList = mutableListOf<String>()
         names.forEach {
@@ -27,13 +27,13 @@ class Cacher {
         file.writeText(output)
     }
 
-    public fun load() {
+    fun load() {
         val loader = Scanner(javaClass.classLoader.getResourceAsStream(fileName))
         while (loader.hasNextLine()) {
             val line = loader.nextLine()
             val halves = line.split(delimiter)
             if (halves.size > 2) error("Delimiter not unique in config file")
-            cache.put(halves[0], halves[1])
+            cache[halves[0]] = halves[1]
         }
     }
 }
