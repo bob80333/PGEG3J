@@ -6,10 +6,10 @@ import java.util.*
 object Configure {
     private val config: HashMap<String, String> = hashMapOf()
     private const val delimiter = " -=:=- "
-    private val fileName = "PGEG3J.config"
+    private const val fileName = "PGEG3J.config"
 
     fun configure(name: String, value: String) {
-        config.set(name, value)
+        config[name] = value
     }
 
     fun retrieve(name: String, default: String = ""): String {
