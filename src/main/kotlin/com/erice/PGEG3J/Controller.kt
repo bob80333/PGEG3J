@@ -5,6 +5,6 @@ import tornadofx.*
 
 class ProjectController : Controller() {
 
-    lateinit var project: Project
+    var project: Project = Project.EmptyProject
 
 }

@@ -15,29 +15,38 @@ class Project(
     var filename: String,
     var absoluteFolderPath: String,
     var absoluteOriginalRomPath: String,
-    var game: Game
+    var game: Game,
+    val empty: Boolean = false
 ) {
 
     private val rom: Rom
-    private val romFile: File = File(absoluteOriginalRomPath)
+    private val romFile: File
 
     init {
-        val romLength = romFile.length()
+        if (!empty) {
+            romFile = File(absoluteOriginalRomPath)
+            val romLength = romFile.length()
 
-        if (romLength > (32 * MB)) {
-            throw InvalidRomException("a GBA ROM cannot be more than 32MB, and this rom was ${romLength.toDouble() / MB.toDouble()}MB.")
-        }
+            if (romLength > (32 * MB)) {
+                throw InvalidRomException("a GBA ROM cannot be more than 32MB, and this rom was ${romLength.toDouble() / MB.toDouble()}MB.")
+            }
 
-        val data = ByteArray(romLength.toInt())
-        FileInputStream(romFile).read(data)
-        rom = Rom(name, data)
+            val data = ByteArray(romLength.toInt())
+            FileInputStream(romFile).read(data)
+            rom = Rom(name, data)
 
-        if (game == Game.AutoDetect) {
-            game = findGame(rom)
+            if (game == Game.AutoDetect) {
+                game = findGame(rom)
+            }
+        } else {
+            romFile = File("")
+            rom = Rom("", byteArrayOf())
         }
     }
 
     companion object {
+        val EmptyProject = Project("", "", "" , "", Game.AutoDetect, true)
+
         private const val delimiter = " := "
         fun loadProject(projectFilePath: String): Project {
             val fileReader = FileReader(projectFilePath)
@@ -68,3 +77,4 @@ class Project(
 
 
 }
+
