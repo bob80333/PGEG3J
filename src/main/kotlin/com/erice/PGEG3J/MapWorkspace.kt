@@ -11,6 +11,7 @@ import javafx.stage.Modality
 import tornadofx.*
 
 class MapWorkspace : Fragment("PGEG3J") {
+    val projectController: ProjectController by inject()
     private val mapWorkspace = this
     override val root =
             borderpane {
@@ -84,6 +85,7 @@ class MapWorkspace : Fragment("PGEG3J") {
                 right {
                     vbox {
                         treeview<String> {
+                            projectController.mapsAndBanks = this
                             prefHeight = 300.0
                             root = TreeItem<String>("OH YEAH ROOT")
                             val maps = getMapList()
