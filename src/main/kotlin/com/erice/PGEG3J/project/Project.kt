@@ -19,7 +19,7 @@ class Project(
     val empty: Boolean = false
 ) {
 
-    private val rom: Rom
+    val rom: Rom
     private val romFile: File
 
     init {

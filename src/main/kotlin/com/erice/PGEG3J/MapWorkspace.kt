@@ -89,9 +89,6 @@ class MapWorkspace : Fragment("PGEG3J") {
                             prefHeight = 300.0
                             root = TreeItem<String>("OH YEAH ROOT")
                             val maps = getMapList()
-                            populate { parent ->
-                                if (parent == root) maps else listOf()
-                            }
                         }
 
                         flowpane {
