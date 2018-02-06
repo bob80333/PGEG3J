@@ -5,6 +5,7 @@ import com.erice.PGEG3J.project.CreateProjectWizard
 import com.erice.PGEG3J.project.Project
 import javafx.application.Platform
 import javafx.geometry.Orientation
+import javafx.scene.control.Button
 import javafx.scene.control.TreeItem
 import javafx.scene.paint.Color
 import javafx.stage.Modality
@@ -12,6 +13,7 @@ import tornadofx.*
 
 class MapWorkspace : Fragment("PGEG3J") {
     val projectController: ProjectController by inject()
+    val mapController: MapController by inject()
     private val mapWorkspace = this
     override val root =
             borderpane {
@@ -84,10 +86,11 @@ class MapWorkspace : Fragment("PGEG3J") {
 
                 right {
                     vbox {
-                        treeview<String> {
+                        treeview<Button> {
                             projectController.mapsAndBanks = this
                             prefHeight = 300.0
-                            root = TreeItem<String>("OH YEAH ROOT")
+                            root = TreeItem<Button>(Button("OH YEAH ROOT"))
+                            isShowRoot = false
                             val maps = getMapList()
                         }
 
@@ -112,7 +115,8 @@ class MapWorkspace : Fragment("PGEG3J") {
 
                 center {
                     tabpane {
-
+                        mapController.tabPane = this
+                        mapController.selectionModel = this.selectionModel
                     }
                 }
             }

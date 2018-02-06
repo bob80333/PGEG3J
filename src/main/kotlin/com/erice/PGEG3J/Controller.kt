@@ -4,16 +4,13 @@ import com.erice.PGEG3J.project.Project
 import com.erice.PGEG3JL.Banks
 import com.erice.PGEG3JL.GameData
 import com.erice.PGEG3JL.Map
-import javafx.scene.control.Tab
-import javafx.scene.control.TreeCell
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeView
-import javafx.util.Callback
+import javafx.scene.control.*
 import tornadofx.*
 
 
 class ProjectController : Controller() {
 
+    val mapController: MapController by inject()
     lateinit var banks: Banks
     private set
 
@@ -23,15 +20,19 @@ class ProjectController : Controller() {
             setupMapsAndBanks()
             field = value
         }
-    lateinit var mapsAndBanks : TreeView<String>
+    lateinit var mapsAndBanks : TreeView<Button>
 
     private fun setupMapsAndBanks() {
-        val root = TreeItem<String>(" ")
-        val banksList = (0 until banks.banks.size).toList().map { it.toString() }
-        val mapsList = mutableListOf(listOf<String>())
+        val root = TreeItem<Button>(Button(""))
+        val banksList = (0 until banks.banks.size).toList().map { Button(it.toString()) }
+        val mapsList = mutableListOf(listOf<Button>())
         mapsList.removeAt(0)
         banks.banks.forEachIndexed{ index, it ->
-            mapsList.add(it.maps.toList().mapIndexed{ index2, map -> map.name + " " + index +"." + index2})
+            mapsList.add(it.maps.toList().mapIndexed{ index2, map ->
+                val button = Button(map.name + " " + index +"." + index2)
+                button.action { mapController.openMap(map, button.text) }
+                button
+            })
         }
 
         mapsAndBanks.root = root
@@ -44,20 +45,32 @@ class ProjectController : Controller() {
         }
     }
 
-    fun setupMouseClickOnTreeView() {
-        mapsAndBanks.cellFactory = Callback<TreeView<String>, TreeCell<String>> {
-            val cell =  TreeCell<String>()
-            cell.setOnMouseClicked {  }
-            cell
-        }
-
-    }
-
 
 }
 
 class MapController : Controller() {
     val openMaps = MutableList<OpenedMap>(0, {OpenedMap()})
+    lateinit var tabPane: TabPane
+    lateinit var selectionModel: SelectionModel<Tab>
+
+    fun openMap(map: Map, name: String) {
+        val existingMap = openMaps.firstOrNull { it.map == map }
+        if (existingMap != null) {
+            selectionModel.select(existingMap.tab)
+        } else {
+            val newTab = tabPane.tab(name)
+            val openedMap = OpenedMap()
+            openedMap.map = map
+            openedMap.tab = newTab
+            openMaps.add(openedMap)
+
+            newTab.setOnClosed { closeMap(openedMap) }
+        }
+    }
+
+    private fun closeMap(openedMap: OpenedMap) {
+        openMaps.remove(openedMap)
+    }
 }
 
 class OpenedMap {
