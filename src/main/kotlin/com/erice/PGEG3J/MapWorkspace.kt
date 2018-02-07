@@ -91,7 +91,6 @@ class MapWorkspace : Fragment("PGEG3J") {
                             prefHeight = 300.0
                             root = TreeItem<Button>(Button("OH YEAH ROOT"))
                             isShowRoot = false
-                            val maps = getMapList()
                         }
 
                         flowpane {
@@ -124,10 +123,6 @@ class MapWorkspace : Fragment("PGEG3J") {
     fun changeProjectName(title: String) {
         this.title = "PGEG3J | " + title
     }
-}
-
-fun getMapList(): List<String> {
-    return listOf("POKEMON TOWN", "OH YEHA TOWN2", "ELITE 4 PLACE", "HALL OF U WIN")
 }
 
 class ProjectModel : ItemViewModel<Project>() {

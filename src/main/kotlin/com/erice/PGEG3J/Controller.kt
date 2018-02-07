@@ -24,7 +24,12 @@ class ProjectController : Controller() {
 
     private fun setupMapsAndBanks() {
         val root = TreeItem<Button>(Button(""))
-        val banksList = (0 until banks.banks.size).toList().map { Button(it.toString()) }
+        val banksList = (0 until banks.banks.size).toList().map {
+            val button = Button(it.toString())
+            button.isDisable = true
+            button.addClass(Style.bankButton)
+            button
+        }
         val mapsList = mutableListOf(listOf<Button>())
         mapsList.removeAt(0)
         banks.banks.forEachIndexed{ index, it ->
