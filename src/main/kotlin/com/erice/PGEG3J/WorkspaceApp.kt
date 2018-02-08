@@ -4,12 +4,10 @@ import javafx.application.Application
 import javafx.scene.image.Image
 import tornadofx.*
 
-class WorkspaceApp : App() {
+class WorkspaceApp : App(MapWorkspace::class, Style::class) {
     val controller: ProjectController by inject()
-    override val primaryView = MapWorkspace::class
 
     init {
-        importStylesheet(Style::class)
         setStageIcon(Image(javaClass.classLoader.getResourceAsStream("PGEG3J-Iconv4.png")))
     }
 

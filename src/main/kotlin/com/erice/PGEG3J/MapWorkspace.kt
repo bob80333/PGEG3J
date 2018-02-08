@@ -5,7 +5,7 @@ import com.erice.PGEG3J.project.CreateProjectWizard
 import com.erice.PGEG3J.project.Project
 import javafx.application.Platform
 import javafx.geometry.Orientation
-import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.control.TreeItem
 import javafx.scene.paint.Color
 import javafx.stage.Modality
@@ -86,11 +86,19 @@ class MapWorkspace : Fragment("PGEG3J") {
 
                 right {
                     vbox {
-                        treeview<Button> {
+                        treeview<Any> {
                             projectController.mapsAndBanks = this
                             prefHeight = 300.0
-                            root = TreeItem<Button>(Button("OH YEAH ROOT"))
+                            root = TreeItem<Any>(Label("OH YEAH ROOT"))
                             isShowRoot = false
+                            val test = Label("Test")
+
+                            val test2 = Label("Test2.")
+
+                            populate {
+                                if (it == root) listOf(test, test2) else listOf()
+                            }
+
                         }
 
                         flowpane {

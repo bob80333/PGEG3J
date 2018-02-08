@@ -20,21 +20,21 @@ class ProjectController : Controller() {
             setupMapsAndBanks()
             field = value
         }
-    lateinit var mapsAndBanks : TreeView<Button>
+    lateinit var mapsAndBanks : TreeView<Any>
 
     private fun setupMapsAndBanks() {
-        val root = TreeItem<Button>(Button(""))
+        val root = TreeItem<Any>(Label(""))
         val banksList = (0 until banks.banks.size).toList().map {
-            val button = Button(it.toString())
-            button.isDisable = true
-            button.addClass(Style.bankButton)
+            val button = Label(it.toString())
             button
         }
         val mapsList = mutableListOf(listOf<Button>())
         mapsList.removeAt(0)
+
         banks.banks.forEachIndexed{ index, it ->
             mapsList.add(it.maps.toList().mapIndexed{ index2, map ->
                 val button = Button(map.name + " " + index +"." + index2)
+                button.addClass(Style.mapButton)
                 button.action { mapController.openMap(map, button.text) }
                 button
             })
@@ -42,7 +42,6 @@ class ProjectController : Controller() {
 
         mapsAndBanks.root = root
         mapsAndBanks.root.isExpanded = true
-
 
         mapsAndBanks.populate {
             if (it == root) banksList else

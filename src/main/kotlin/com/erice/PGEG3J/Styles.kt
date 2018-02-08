@@ -7,7 +7,7 @@ class Style : Stylesheet() {
     companion object {
         val wrapper by cssclass()
         val consola by cssclass()
-        val bankButton by cssclass()
+        val mapButton by cssclass()
         val white = c("#ffffff")
     }
 
@@ -15,16 +15,13 @@ class Style : Stylesheet() {
 
 
         consola {
-            baseColor= Color.BLACK
+            baseColor = Color.BLACK
             fontFamily = "Consolas"
             textFill = Color.LIGHTGRAY
         }
 
-        bankButton {
+        mapButton {
             backgroundColor += white
-            baseColor = Color.WHITE
-            accentColor = white
-            focusColor = white
         }
     }
 }
